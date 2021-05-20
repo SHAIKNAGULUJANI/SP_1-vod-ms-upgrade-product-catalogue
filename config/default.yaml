@@ -1,0 +1,74 @@
+# swagger configuration file
+
+# values in the swagger hash are system configuration for swagger-node
+swagger:
+  basePath: /vod-ms-journey-upgrade-product-catalogue
+  fittingsDirs: [ api/fittings ]
+  defaultPipe: null
+  swaggerControllerPipe: swagger_controllers  # defines the standard processing pipe for controllers
+
+  # values defined in the bagpipes key are the bagpipes pipes and fittings definitions
+  # (see https://github.com/apigee-127/bagpipes)
+  bagpipes:
+
+    _router:
+      name: swagger_router
+      mockMode: false
+      mockControllersDirs: [ api/mocks ]
+      controllersDirs: [ api/controllers ]
+
+    _swagger_validate:
+      name: swagger_validator
+      validateResponse: true
+
+    # pipe for all swagger-node controllers
+    swagger_controllers:
+      - onError: json_error_handler
+      - cors
+      - swagger_security
+      - _swagger_validate
+      - express_compatibility
+      - _router
+
+    # pipe to serve swagger (endpoint is in swagger.yaml)
+    swagger_raw:
+      name: swagger_raw
+
+log:
+  level: debug
+
+zipkin:
+  baseUri: http://vod-ms-zipkin-app:80/
+  enabled: true
+  localServiceName: vod-ms-journey-upgrade-product-catalogue
+
+sentry:
+  httpProxy: http://vod-ms-egress-proxy.cluster-services:3128
+  categories:
+    getDeviceModels: "Get device models for a manufacturer"
+    getManufacturerList: "Get a list of manufacturers"
+
+error:
+  sentry:
+    exclude:
+      status:
+        - 400
+        - 401
+        - 403
+      message:
+        - Unauthorized
+
+vod-npm-restify-sanitize:
+  config:
+    headers:
+      keep:
+        - authorization
+
+vod-npm-auth:
+  unauthorisedMessage: Unauthorised
+  forbiddenMessage: Forbidden
+  subjectHeader: x-app-msisdn
+  authorization-loader:
+    uri: http://vod-ms-authorization-loader:8080/restricted-cluster-only-services
+    postfix: /authorize/v1/linkedorchild
+  contextUrl: http://vod-ms-context:8080

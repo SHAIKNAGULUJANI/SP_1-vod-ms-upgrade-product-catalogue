@@ -1,0 +1,25 @@
+# Put your local development config here
+zipkin:
+  baseUri: http://qa.vod-ms-zipkin-app.ms.vodacom.corp:80/
+
+sentry:
+  httpProxy: null
+  dsn: https://8a279afff7e44e579164f1627fad1f97@o185340.ingest.sentry.io/5699325
+  maxBreadcrumbs: 30
+  environment: LOCAL
+  enabled: true
+
+vod-npm-auth:
+  authorization-loader:
+    uri: http://vod-ms-swagger-combined.qa.cloud.vodacom.corp/vod-ms-authorization-loader/restricted-cluster-only-services
+  publicKey: |
+    -----BEGIN PUBLIC KEY-----
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmq9A/mM8B+gjfeyczxdj
+    e8Ai9BN1gr+chG0ragfBG1T4ANVeOzppJrYOqSlFPQQB0516G6DnMEl7mWXjNUR5
+    YYuSY/mBcs2TJVs53djA24V8VYSBZpd2J2UA/mT8aC28UkxBzXM9a99gP8J9Gefu
+    /kszWiU7pafWEGXgM83DtMVrGbz/v857/5xbtHDGy/OOK27jtDaRon0RAj90swHW
+    mqOKRmMNHJazInEXztcePEDz4BtaWBs8WvofvMmKMfEUutkTasj+EM9Rwh6XoD0Y
+    S79pgmVilaDA+lLxniqGc8KP7GpBMBkXCS7A7N3TYIVxUrA2Q5qKTi0HZ7JQgC+p
+    jQIDAQAB
+    -----END PUBLIC KEY-----
+  contextUrl: 'http://vod-ms-swagger-combined.qa.cloud.vodacom.corp/vod-ms-context'

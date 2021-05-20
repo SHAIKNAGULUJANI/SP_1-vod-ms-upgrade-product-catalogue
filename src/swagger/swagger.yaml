@@ -1,0 +1,107 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Upgrade Journey
+tags:
+  - name: Devices
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /swagger:
+    x-swagger-pipe: swagger_raw
+  /tmf-api/productCatalogManagement/v4/category/brandNames:
+    get:
+      tags:
+        - Devices
+      summary: Returns a list of manufacturers
+      operationId: getManufacturerList
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: List of manufacturers retrieved successfully.
+          schema:
+            $ref: '#/definitions/ManufacturerList-Model'
+        400:
+          description: Missing required input parameter.
+        404:
+          description: No manufactures found.
+        424:
+          description: Upstream call failed with a 500. Response will be identical to upstream failure.
+        500:
+          description: Technical error occured, service failure.
+
+  /tmf-api/productCatalogManagement/v4/productSpecification:
+    get:
+      tags:
+        - "Devices"
+      operationId: getDeviceModels
+      summary: Returns all device models for a manufacturer
+      consumes:
+        - application/json
+      parameters:
+        - in: "query"
+          name: brandName
+          type: array
+          items:
+            type: string
+          required: false
+      responses:
+        200:
+          description: All device models retrieved successfully
+          schema:
+            $ref: "#/definitions/DeviceModel-Model"
+        400:
+          description: Missing required input parameter
+        404:
+          description: No device models found
+        424:
+          description: Upstream call failed with a 500. Response will be identical to upstream failure
+        500:
+          description: Technical error occured, service failure
+
+# complex objects have schema definitions
+definitions:
+  # Get Manufacturer List
+  ManufacturerList-Model:
+    type: object
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      subCategory:
+        type: array
+        items:
+          type: string
+
+  # Get Device Models
+  DeviceModel-Model:
+    type: object
+    properties:
+      brand:
+        type: string
+      description:
+        type: string
+      productSpecCharacteristic:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            valueType:
+              type: string
+            productSpecCharacteristicValue:
+              type: object
+              properties:
+                value:
+                  type: string

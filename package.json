@@ -1,0 +1,69 @@
+{
+  "name": "vod-ms-journey-upgrade-product-catalogue",
+  "version": "1.0.0-SNAPSHOT",
+  "private": true,
+  "description": "Upgrade Product Service",
+  "keywords": [],
+  "vod-settings": {
+    "teams": [
+      "Cloud_Mobile_Apps",
+      "Cloud_Sales"
+    ]
+  },
+  "license": "UNLICENSED",
+  "main": "app.js",
+  "dependencies": {
+    "config": "^1.29.4",
+    "http-status-codes": "^1.3.0",
+    "js-yaml": "^3.11.0",
+    "neo-async": "^2.5.0",
+    "restify": "^6.3.4",
+    "restify-cookies": "^0.2.2",
+    "restify-prom-bundle": "^2.0.3",
+    "swagger-restify-mw": "^0.7.0",
+    "swagger-routes": "^1.7.0",
+    "vod-npm-auth": "^5.0.6",
+    "vod-npm-console-logger": "^1.0.1",
+    "vod-npm-restify-mockme": "^1.0.6",
+    "vod-npm-restify-sanitize": "0.0.1",
+    "vod-npm-sentry": "^2.1.4",
+    "vod-npm-services": "^2.2.195",
+    "vod-npm-utils": "^3.2.4",
+    "zipkin-instrumentation-restify": "^0.18.6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/register": "^7.8.3",
+    "babel-eslint": "^8.2.2",
+    "chai": "^4.1.2",
+    "cross-env": "^5.1.4",
+    "del-cli": "^1.1.0",
+    "escope": "^3.6.0",
+    "eslint": "^4.19.1",
+    "mocha": "^5.1.1",
+    "node-mocks-http": "1.5.8",
+    "nyc": "11.9.0",
+    "pre-commit": "^1.2.2",
+    "sinon": "^4.4.5",
+    "sinon-chai": "^3.1.0",
+    "tartifacts-cli": "^0.7.3"
+  },
+  "scripts": {
+    "audit": "nsp check",
+    "build": "npm run copy",
+    "copy": "tartifacts --patterns ./artifacts.txt --output docker/dist/dist.tar.gz",
+    "clean": "del-cli sonar-project.properties docker/dist k8s/build coverage .nyc_output .scannerwork",
+    "check": "npm run audit && npm outdated --depth 0",
+    "coverage": "nyc --reporter=lcov --reporter=text --reporter=html npm test",
+    "lint": "eslint src test",
+    "start": "node app.js",
+    "test": "cross-env NODE_ENV=test mocha --recursive --require @babel/register test --exit",
+    "validate": "npm run lint && npm test"
+  },
+  "pre-commit": [
+    "validate"
+  ]
+}

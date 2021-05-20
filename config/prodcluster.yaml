@@ -1,0 +1,3 @@
+# Put your staging and prod cluster configuration here.
+log:
+  level: error

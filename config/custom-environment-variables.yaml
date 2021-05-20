@@ -1,0 +1,18 @@
+# Stick your container environment variables here
+# Each value must be an environment variable defined in the k8s deployment file.
+env: NODE_ENV
+
+log:
+  level: LOG_LEVEL
+
+sentry:
+  dsn: SENTRY_DSN
+  maxBreadcrumbs: SENTRY_MAX_BREADCRUMBS
+  httpProxy: SENTRY_PROXY
+  environment: SENTRY_ENV
+  enabled:
+    __name: SENTRY_ENABLED
+    __format: "json"
+
+vod-npm-auth:
+  publicKey: JWT_TOKEN
